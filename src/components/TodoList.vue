@@ -3,7 +3,9 @@
 		<div><h1>{{title}}</h1></div>
 		<span>Add todo:</span><input v-model="new_item" v-on:keyup.enter="addNew">
 		<ul>
-			<li v-for="item in todo_list" :class="{finished: item.isFinished}" v-on:click="toggleFinish(item)">{{item.label}}</li>
+			<li v-for="(item,index) in todo_list" :class="{finished: item.isFinished}" v-on:click="toggleFinish(item)">
+				{{item.label}} <button class="btn-del" v-on:click="removeItem(index)">Delete</button>
+			</li>
 		</ul>
 	</div>
 </template>
@@ -28,6 +30,9 @@ export default{
 		},
 		toggleFinish(item) {
 			item.isFinished = !item.isFinished
+		},
+		removeItem(index){
+			this.todo_list.splice(index,1)
 		}
 	},
 	watch : {
@@ -42,6 +47,9 @@ export default{
 </script>
 
 <style>
+.btn-del{
+	color: red;
+}
 .title{
 	font-size: 24px;
 	font-weight: bold;
